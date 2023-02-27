@@ -9,8 +9,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 void main() {
   runApp(const MyApp());
 }
-
-bool toUpdate = true;
 var shareDesc = <Map>[];
 
 class MyApp extends StatelessWidget {
@@ -235,8 +233,8 @@ class _MyHomePage extends State<MyHomePage> {
                               const SizedBox(width: 10),
                               OutlinedButton(
                                   onPressed: () {
-                                    if (nameController.text == '' &&
-                                        amountController.text == '' &&
+                                    if (nameController.text == '' ||
+                                        amountController.text == '' ||
                                         descController.text == '') {
                                       Fluttertoast.showToast(
                                           msg: 'All fields are required');
