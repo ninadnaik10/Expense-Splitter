@@ -1,16 +1,20 @@
-# bill_spliter
+# Expense Splitter
 
-A new Flutter project.
+A simple Android app to help you split the expense among friends made with Flutter.
 
-## Getting Started
+Original idea by [@ghadegaurav](https://github.com/ghadegaurav) | [Live](https://ghadegaurav.github.io/bill-splitter/)
 
-This project is a starting point for a Flutter application.
+### Functionalities
 
-A few resources to get you started if this is your first Flutter project:
+- Takes multiple entries
+- Swipe to delete
+- Shows each transactions to make
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+PRs are appreciated!
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Images
+
+
+![Screenshot_20230227_004009 (2)](https://user-images.githubusercontent.com/86565419/221431760-2995cb6c-cae0-4906-8f0f-8868cc5af9c3.png)
+![Screenshot_20230227_004525](https://user-images.githubusercontent.com/86565419/221431883-7f7c7269-e9c5-40ec-be81-c3338ba68702.png)
+![Screenshot_20230227_004512](https://user-images.githubusercontent.com/86565419/221431888-b2e5630d-ba1b-4ecb-950e-05fa9baf4ec0.png)
