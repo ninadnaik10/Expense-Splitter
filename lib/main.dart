@@ -9,6 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 void main() {
   runApp(const MyApp());
 }
+
 var shareDesc = <Map>[];
 
 class MyApp extends StatelessWidget {
@@ -50,47 +51,56 @@ class _MyHomePage extends State<MyHomePage> {
     // var expenseTitle = <String> [];
     // var amount = <num> [];
     return Scaffold(
-        appBar: AppBar(title: const Text('Expense Splitter'),
-        actions: [
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text("About"),
-                ),
-                body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Expense Splitter by Ninad Naik', style: TextStyle(fontSize: 20, color: Colors.grey)
+        appBar: AppBar(
+          title: const Text('Expense Splitter'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return Scaffold(
+                      appBar: AppBar(
+                        title: Text("About"),
                       ),
-                      // IconButton(onPressed: () => launchUrl(Uri.parse('https://github.com/ninadnaik10')), icon: const FaIcon(FontAwesomeIcons.github))
-                    ],
-                  ),
-                ),
-              );
-            }));
-          }, icon: Icon(Icons.info_outline))
-        ],),
+                      body: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('Expense Splitter by Ninad Naik',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.grey)),
+                            // IconButton(onPressed: () => launchUrl(Uri.parse('https://github.com/ninadnaik10')), icon: const FaIcon(FontAwesomeIcons.github))
+                          ],
+                        ),
+                      ),
+                    );
+                  }));
+                },
+                icon: Icon(Icons.info_outline))
+          ],
+        ),
         body: friends.isEmpty
             ? Center(
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Press ',
-                      style: TextStyle(fontSize: 20, color: Colors.grey),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Press ',
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                        ),
+                        Icon(
+                          Icons.add,
+                          color: Colors.grey,
+                        ),
+                        Text(
+                          ' button to add descriptions',
+                          style: TextStyle(fontSize: 20, color: Colors.grey),
+                        ),
+                      ],
                     ),
-                    Icon(
-                      Icons.add,
-                      color: Colors.grey,
-                    ),
-                    Text(
-                      ' button to add descriptions',
-                      style: TextStyle(fontSize: 20, color: Colors.grey),
-                    ),
+                    const Text("You can swipe an entry to delete.", style: TextStyle(fontSize: 20, color: Colors.grey))
                   ],
                 ),
               )

@@ -12,6 +12,12 @@ Original idea by [@ghadegaurav](https://github.com/ghadegaurav) | [Live](https:/
 
 PRs are appreciated!
 
+## How does it work
+Suppose there are 3 people A, B, C and they are spending money together.
+Let's say they spend 35 bucks for tickets, 45 bucks for food and 10 bucks for drinks (assuming everyone's share is equal).
+A gives out 30, B gives out 50 and C gives out 10. Share of each person is 30 bucks. To equalize it, C should give 5 bucks to A, and 10 bucks to B.
+This app will help you calculate the same!
+
 ## Images
 
 
