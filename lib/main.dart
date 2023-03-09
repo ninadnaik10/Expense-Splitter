@@ -1,8 +1,12 @@
 import 'dart:convert';
 
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:simple_icons/simple_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
+// import 'package:localstore/localstore.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:url_launcher/url_launcher.dart';
 
@@ -41,6 +45,7 @@ class _MyHomePage extends State<MyHomePage> {
   }
 
   var friends = <Map<String, dynamic>>[];
+  GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -59,15 +64,20 @@ class _MyHomePage extends State<MyHomePage> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return Scaffold(
                       appBar: AppBar(
-                        title: Text("About"),
+                        title: const Text("About"),
                       ),
                       body: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text('Expense Splitter by Ninad Naik',
+                          children: [
+                            const Text('Expense Splitter by Ninad Naik',
                                 style: TextStyle(
                                     fontSize: 20, color: Colors.grey)),
+                            IconButton(
+                              onPressed: () => launchUrl(Uri.parse(
+                                  'https://github.com/ninadnaik10/expense-splitter')),
+                              icon: const Icon(SimpleIcons.github),
+                            )
                             // IconButton(onPressed: () => launchUrl(Uri.parse('https://github.com/ninadnaik10')), icon: const FaIcon(FontAwesomeIcons.github))
                           ],
                         ),
@@ -75,7 +85,7 @@ class _MyHomePage extends State<MyHomePage> {
                     );
                   }));
                 },
-                icon: Icon(Icons.info_outline))
+                icon: const Icon(Icons.info_outline))
           ],
         ),
         body: friends.isEmpty
@@ -100,7 +110,8 @@ class _MyHomePage extends State<MyHomePage> {
                         ),
                       ],
                     ),
-                    const Text("You can swipe an entry to delete.", style: TextStyle(fontSize: 20, color: Colors.grey))
+                    const Text("You can swipe an entry to delete.",
+                        style: TextStyle(fontSize: 20, color: Colors.grey))
                   ],
                 ),
               )
@@ -205,13 +216,37 @@ class _MyHomePage extends State<MyHomePage> {
                             style: TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 15),
-                          // Text("Enter the Data"),
+                          const Text("Enter the Data"),
                           TextField(
                               controller: nameController,
                               textCapitalization: TextCapitalization.words,
                               decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Enter Name')),
+                          // AutoCompleteTextField(
+                          //   suggestions: friends,
+                          //   itemFilter: (map, query) {
+                          //     return map['Name'].toLowerCase().startsWith(query.toLowerCase());
+                          //   },
+                          //   itemSorter: (a, b) {
+                          //     return a['name'].compareTo(b['name']);
+                          //   },
+                          //   itemSubmitted: (map) {
+                          //     print('Selected item: ${map['name']}');
+                          //   },
+                          //   itemBuilder: (context, map) {
+                          //     return ListTile(
+                          //       title: Text(map['Name']),
+                          //     );
+                          //   }, key: key,
+                          // ),
+                          //       Autocomplete<String>(
+                          //   optionsBuilder: getNames,
+                          //   onSelected: (String selection) {
+                          //     debugPrint('You just selected $selection');
+                          //   },
+                          // ),
+
                           const SizedBox(height: 15),
                           TextField(
                               controller: descController,
@@ -257,6 +292,16 @@ class _MyHomePage extends State<MyHomePage> {
                                         'Amount':
                                             num.parse(amountController.text)
                                       });
+                                      // final id =
+                                      //     db.collection('transaction').doc().id;
+                                      // db.collection('transaction').doc(id).set({
+                                      //   'Name': nameController.text,
+                                      //   'Description': descController.text,
+                                      //   'Amount':
+                                      //       num.parse(amountController.text)
+                                      // });
+                                      // final data = await db.collection('transaction').doc(id).get();
+                                      // print(data);
                                     });
                                     Navigator.pop(context);
                                   },
@@ -278,6 +323,14 @@ class _MyHomePage extends State<MyHomePage> {
     shareDesc = [];
     num totalExpense = 0;
     var friendsTemp = jsonDecode(jsonEncode(friends));
+    for (int i = 0; i < friendsTemp.length - 1; i++) {
+      for (int j = i + 1; j < friendsTemp.length; j++) {
+        if (friendsTemp[i]['Name'] == friendsTemp[j]['Name']) {
+          friendsTemp[i]['Amount'] += friendsTemp[j]['Amount'];
+          friendsTemp.removeAt(j);
+        }
+      }
+    }
     num average = 0;
     for (int i = 0; i < friendsTemp.length; i++) {
       totalExpense += friendsTemp[i]['Amount'];
@@ -314,4 +367,12 @@ class _MyHomePage extends State<MyHomePage> {
       }
     }
   }
+  // FutureOr<Iterable<String>> getNames(TextEditingValue textEditingValue) {
+  //   if (textEditingValue.text == '') {
+  //     return const Iterable<String>.empty();
+  //   }
+  //   return friends.where((Map<String, dynamic> place) {
+  //     return place['Name'].toLowerCase().contains(textEditingValue.text.toLowerCase());
+  //   }).toList();
+  // }
 }
