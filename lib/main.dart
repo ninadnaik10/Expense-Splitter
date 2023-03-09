@@ -216,7 +216,6 @@ class _MyHomePage extends State<MyHomePage> {
                             style: TextStyle(fontSize: 20),
                           ),
                           const SizedBox(height: 15),
-                          const Text("Enter the Data"),
                           TextField(
                               controller: nameController,
                               textCapitalization: TextCapitalization.words,
