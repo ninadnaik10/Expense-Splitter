@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -45,8 +45,7 @@ class _MyHomePage extends State<MyHomePage> {
   }
 
   var friends = <Map<String, dynamic>>[];
-  GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
-
+  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     TextEditingController nameController = TextEditingController();
@@ -199,119 +198,158 @@ class _MyHomePage extends State<MyHomePage> {
               heroTag: "btn1",
               child: const Icon(Icons.add),
               onPressed: () {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => Dialog(
-                    backgroundColor: const Color(0XFFFFFFFF),
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          const Text(
-                            'Enter a description',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(height: 15),
-                          TextField(
-                              controller: nameController,
-                              textCapitalization: TextCapitalization.words,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Enter Name')),
-                          // AutoCompleteTextField(
-                          //   suggestions: friends,
-                          //   itemFilter: (map, query) {
-                          //     return map['Name'].toLowerCase().startsWith(query.toLowerCase());
-                          //   },
-                          //   itemSorter: (a, b) {
-                          //     return a['name'].compareTo(b['name']);
-                          //   },
-                          //   itemSubmitted: (map) {
-                          //     print('Selected item: ${map['name']}');
-                          //   },
-                          //   itemBuilder: (context, map) {
-                          //     return ListTile(
-                          //       title: Text(map['Name']),
-                          //     );
-                          //   }, key: key,
-                          // ),
-                          //       Autocomplete<String>(
-                          //   optionsBuilder: getNames,
-                          //   onSelected: (String selection) {
-                          //     debugPrint('You just selected $selection');
-                          //   },
-                          // ),
-
-                          const SizedBox(height: 15),
-                          TextField(
-                              controller: descController,
-                              textCapitalization: TextCapitalization.words,
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Enter Description')),
-                          const SizedBox(height: 15),
-                          TextField(
-                            controller: amountController,
-                            decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Enter Amount'),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              OutlinedButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Close'),
-                              ),
-                              const SizedBox(width: 10),
-                              OutlinedButton(
-                                  onPressed: () {
-                                    if (nameController.text == '' ||
-                                        amountController.text == '' ||
-                                        descController.text == '') {
-                                      Fluttertoast.showToast(
-                                          msg: 'All fields are required');
-                                      return;
-                                    }
-                                    setState(() {
-                                      friends.add({
-                                        'Name': nameController.text,
-                                        'Description': descController.text,
-                                        'Amount':
-                                            num.parse(amountController.text)
-                                      });
-                                      // final id =
-                                      //     db.collection('transaction').doc().id;
-                                      // db.collection('transaction').doc(id).set({
-                                      //   'Name': nameController.text,
-                                      //   'Description': descController.text,
-                                      //   'Amount':
-                                      //       num.parse(amountController.text)
-                                      // });
-                                      // final data = await db.collection('transaction').doc(id).get();
-                                      // print(data);
-                                    });
-                                    Navigator.pop(context);
+                showGeneralDialog<String>(
+                    transitionBuilder: (ctx, a1, a2, child) {
+                      var curve = Curves.easeInOut.transform(a1.value);
+                      return Transform.scale(
+                        scale: curve,
+                        child: Dialog(
+                          backgroundColor: const Color(0XFFFFFFFF),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                const Text(
+                                  'Enter a description',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(height: 15),
+                                // TextField(
+                                //     controller: nameController,
+                                //     textCapitalization: TextCapitalization.words,
+                                //     decoration: const InputDecoration(
+                                //         border: OutlineInputBorder(),
+                                //         labelText: 'Enter Name')),
+                                // AutoCompleteTextField(
+                                //   suggestions: friends,
+                                //   itemFilter: (map, query) {
+                                //     return map['Name'].toLowerCase().startsWith(query.toLowerCase());
+                                //   },
+                                //   itemSorter: (a, b) {
+                                //     return a['name'].compareTo(b['name']);
+                                //   },
+                                //   itemSubmitted: (map) {
+                                //     print('Selected item: ${map['name']}');
+                                //   },
+                                //   itemBuilder: (context, map) {
+                                //     return ListTile(
+                                //       title: Text(map['Name']),
+                                //     );
+                                //   }, key: key,
+                                // ), List listOfNames =
+                                //                                   friends.map((map) => map['Name']).toList() as <String>;
+                                EasyAutocomplete(
+                                  suggestions: friends
+                                      .map((map) => map['Name'])
+                                      .toSet()
+                                      .toList()
+                                      .cast<String>(),
+                                  controller: nameController,
+                                  focusNode: focusNode,
+                                  suggestionBuilder: (data) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        nameController.text = data;
+                                        focusNode.nextFocus();
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.all(1),
+                                        padding: const EdgeInsets.all(5),
+                                        child: Text(data,
+                                            style: TextStyle(
+                                              color: Colors.grey[600],
+                                              fontSize: 22,
+                                            )),
+                                      ),
+                                    );
                                   },
-                                  child: const Text('Add'))
-                            ],
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Enter Name',
+                                  ),
+                                ),
+
+                                const SizedBox(height: 15),
+                                TextField(
+                                    textInputAction: TextInputAction.next,
+                                    controller: descController,
+                                    textCapitalization:
+                                        TextCapitalization.words,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Enter Description')),
+                                const SizedBox(height: 15),
+                                TextField(
+                                  textInputAction: TextInputAction.done,
+                                  controller: amountController,
+                                  decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      labelText: 'Enter Amount'),
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                ),
+                                const SizedBox(height: 15),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    OutlinedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Close'),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    OutlinedButton(
+                                        onPressed: () {
+                                          if (nameController.text == '' ||
+                                              amountController.text == '' ||
+                                              descController.text == '') {
+                                            Fluttertoast.showToast(
+                                                msg: 'All fields are required');
+                                            return;
+                                          }
+                                          setState(() {
+                                            friends.add({
+                                              'Name': nameController.text,
+                                              'Description':
+                                                  descController.text,
+                                              'Amount': num.parse(
+                                                  amountController.text)
+                                            });
+                                            // final id =
+                                            //     db.collection('transaction').doc().id;
+                                            // db.collection('transaction').doc(id).set({
+                                            //   'Name': nameController.text,
+                                            //   'Description': descController.text,
+                                            //   'Amount':
+                                            //       num.parse(amountController.text)
+                                            // });
+                                            // final data = await db.collection('transaction').doc(id).get();
+                                            // print(data);
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Add'))
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                        ),
+                      );
+                    },
+                    transitionDuration: const Duration(milliseconds: 300),
+                    context: context,
+                    pageBuilder: (ctx, a1, a2) {
+                      return Container();
+                    });
               },
             ),
           ]),
@@ -322,44 +360,53 @@ class _MyHomePage extends State<MyHomePage> {
     shareDesc = [];
     num totalExpense = 0;
     var friendsTemp = jsonDecode(jsonEncode(friends));
-    for (int i = 0; i < friendsTemp.length - 1; i++) {
-      for (int j = i + 1; j < friendsTemp.length; j++) {
-        if (friendsTemp[i]['Name'] == friendsTemp[j]['Name']) {
-          friendsTemp[i]['Amount'] += friendsTemp[j]['Amount'];
-          friendsTemp.removeAt(j);
+    List<Map<String, dynamic>> modFriendsTemp = [];
+    for (var map in friendsTemp) {
+      bool found = false;
+      for (var modMap in modFriendsTemp) {
+        if (modMap['Name'] == map['Name']) {
+          modMap['Amount'] += map['Amount'];
+          found = true;
+          break;
         }
+      }
+      if (!found) {
+        modFriendsTemp.add({"Name": map['Name'], "Amount": map['Amount']});
       }
     }
     num average = 0;
-    for (int i = 0; i < friendsTemp.length; i++) {
-      totalExpense += friendsTemp[i]['Amount'];
+    for (int i = 0; i < modFriendsTemp.length; i++) {
+      totalExpense += modFriendsTemp[i]['Amount'];
     }
-    average = totalExpense / friendsTemp.length;
-    for (int i = 0; i < friendsTemp.length; i++) {
-      if (friendsTemp[i]['Amount'] > average) {
-        for (int j = 0; j < friendsTemp.length; j++) {
-          if (friendsTemp[j]['Amount'] < average) {
-            var diff = friendsTemp[i]['Amount'] - average;
-            if ((friendsTemp[j]['Amount'] + diff) > average) {
+    average = totalExpense / modFriendsTemp.length;
+    for (int i = 0; i < modFriendsTemp.length; i++) {
+      //todo refactoring as var i in modFriendsTemp
+      if (modFriendsTemp[i]['Amount'] > average) {
+        for (int j = 0; j < modFriendsTemp.length; j++) {
+          if (modFriendsTemp[j]['Amount'] < average) {
+            var diff = modFriendsTemp[i]['Amount'] - average;
+            if ((modFriendsTemp[j]['Amount'] + diff) > average) {
               shareDesc.add({
-                'Sender': friendsTemp[j]['Name'],
-                'Receiver': friendsTemp[i]['Name'],
-                'Amount': average - friendsTemp[j]['Amount']
+                'Sender': modFriendsTemp[j]['Name'],
+                'Receiver': modFriendsTemp[i]['Name'],
+                'Amount': average - modFriendsTemp[j]['Amount']
               });
               // sender.add(friendsTemp[i]);
               // receiver.add(friendsTemp[j]);
-              friendsTemp[i]['Amount'] -= (average - friendsTemp[j]['Amount']);
-              friendsTemp[j]['Amount'] += average - friendsTemp[j]['Amount'];
+              modFriendsTemp[i]['Amount'] -=
+                  (average - modFriendsTemp[j]['Amount']);
+              modFriendsTemp[j]['Amount'] +=
+                  average - modFriendsTemp[j]['Amount'];
             } else {
               shareDesc.add({
-                'Sender': friendsTemp[j]['Name'],
-                'Receiver': friendsTemp[i]['Name'],
+                'Sender': modFriendsTemp[j]['Name'],
+                'Receiver': modFriendsTemp[i]['Name'],
                 'Amount': diff
               });
               // sender.add(friendsTemp[j]);
               // receiver.add(friendsTemp[i]);
-              friendsTemp[j]['Amount'] += diff;
-              friendsTemp[i]['Amount'] -= diff;
+              modFriendsTemp[j]['Amount'] += diff;
+              modFriendsTemp[i]['Amount'] -= diff;
             }
           }
         }
