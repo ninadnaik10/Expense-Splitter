@@ -12,7 +12,7 @@ Original idea by [@ghadegaurav](https://github.com/ghadegaurav) | [Live](https:/
 - Swipe to delete
 - Shows each transactions to make
 
-PRs are appreciated!
+PRs are appreciated! Head to [CONTRIBUTING.md](https://github.com/ninadnaik10/expense-splitter/blob/main/CONTRIBUTING.md) to learn more.
 
 ## How does it work?
 Suppose there are 3 people A, B, C and they are spending money together.
