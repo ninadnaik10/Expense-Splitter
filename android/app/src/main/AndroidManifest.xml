@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.ninadnaik.expense_splitter">
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="Expense Splitter"
         android:name="${applicationName}"
