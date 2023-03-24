@@ -74,7 +74,7 @@ class _MyHomePage extends State<MyHomePage> {
                                     fontSize: 20, color: Colors.grey)),
                             IconButton(
                               onPressed: () => launchUrl(Uri.parse(
-                                  'https://github.com/ninadnaik10/expense-splitter')),
+                                  'https://github.com/ninadnaik10/expense-splitter'), ),
                               icon: const Icon(SimpleIcons.github),
                             )
                             // IconButton(onPressed: () => launchUrl(Uri.parse('https://github.com/ninadnaik10')), icon: const FaIcon(FontAwesomeIcons.github))
