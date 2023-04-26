@@ -2,7 +2,7 @@
 
 A simple Android app to help you split the expense among friends made with Flutter.
 
-Download the apk file from [Release page](https://github.com/ninadnaik10/expense-splitter/releases)
+Download the apk file from [Release page](https://github.com/ninadnaik10/expense-splitter/releases) or use the [Web App](https://ninadnaik10.github.io/expense-splitter-web/)
 
 Original idea by [@ghadegaurav](https://github.com/ghadegaurav) | [Repo](https://github.com/ghadegaurav/bill-splitter) | [Live](https://ghadegaurav.github.io/bill-splitter/)
 
