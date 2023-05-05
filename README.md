@@ -6,7 +6,11 @@ Download the apk file from [Release page](https://github.com/ninadnaik10/expense
 
 Original idea by [@ghadegaurav](https://github.com/ghadegaurav) | [Repo](https://github.com/ghadegaurav/bill-splitter) | [Live](https://ghadegaurav.github.io/bill-splitter/)
 
-### Functionalities
+## Download
+
+[<img src="ghbadge.png" alt="Get it on GitHub" height="80">](https://github.com/ninadnaik10/expense-splitter/releases)
+
+## Functionalities
 
 - Takes multiple entries
 - Swipe to delete
