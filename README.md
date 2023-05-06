@@ -1,4 +1,5 @@
 # Expense Splitter
+<img src="https://img.shields.io/github/v/release/ninadnaik10/Expense-Splitter.svg?logo=github">
 
 A simple Android app to help you split the expense among friends made with Flutter.
 
